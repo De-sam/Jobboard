@@ -18,7 +18,8 @@ SECRET_KEY = 'django-insecure-(2%5*d09p#9#ndprnmpw#1w0gwcl35r71n$bevo+^_#yyf*91^
 DEBUG = True
 
 # Local dev hosts
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+# Local dev + Render
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "jobboard-zhor.onrender.com"]
 
 # Application definition
 INSTALLED_APPS = [
