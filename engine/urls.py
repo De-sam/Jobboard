@@ -21,6 +21,9 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
     SpectacularRedocView,
 )
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .auth_views import SignupView  # <-- add this
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,5 +33,11 @@ urlpatterns = [
     path("api/docs", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path("api/redoc", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 
-    # app endpoints will go under /api/ later
+      # Auth
+    path("api/auth/register/", SignupView.as_view(), name="auth_register"),  # <-- new
+    path("api/auth/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+
+    # Jobs domain
+    path("api/", include("jobs.urls")),
 ]
