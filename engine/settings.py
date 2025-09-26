@@ -11,13 +11,9 @@ from datetime import timedelta
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-(2%5*d09p#9#ndprnmpw#1w0gwcl35r71n$bevo+^_#yyf*91^'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Local dev hosts
 # Local dev + Render
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "jobboard-zhor.onrender.com"]
 
@@ -36,6 +32,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "drf_spectacular_sidecar",
     "django_filters",
+    "corsheaders",   # ✅ Added
 
     # Local apps
     "jobs",
@@ -43,6 +40,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # ✅ Must be high up
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -60,8 +58,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                # NOTE: keep request for DRF browsable API
-                'django.template.context_processors.request',
+                'django.template.context_processors.request',  # keep request for DRF browsable API
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -130,3 +127,12 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }
+
+# ---------- CORS ----------
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",              # local React dev
+    "http://127.0.0.1:3000",             # alt local
+    "https://job-harbor-platform.vercel.app",  # ✅ your frontend
+]
+
+CORS_ALLOW_CREDENTIALS = True
